@@ -13,7 +13,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Performance calculation example");
     let mut wrt = csv::Writer::from_path(OUTPUT_CSV)?;
 
-
     for op in ["+", "*", "inverse", "sqr", "pow"] {
         let (op1, op2) = stage(&mut wrt);
         let avg_dur = measure(op, &op1, &op2, &mut wrt)?;
@@ -53,9 +52,10 @@ fn measure(op: &str, op1: &Vec<GF2Element<DIM>>, op2: &Vec<GF2Element<DIM>>, wrt
             "sqr" => { measure_sqr(&op1[i]) }
             "pow" => {
                 let mut op2: Vec<UnsignedLongInt> = Vec::with_capacity(EXPS);
-                let random_bytes: Vec<u64> = (0..DIM).map(|_| { rand::random::<u64>() }).collect();
-                op2.push(UnsignedLongInt::from(random_bytes.as_slice()));
-
+                for i in 0..EXPS {
+                    let random_bytes: Vec<u64> = (0..DIM).map(|_| { rand::random::<u64>() }).collect();
+                    op2.push(UnsignedLongInt::from(random_bytes.as_slice()));
+                }
                 measure_pow(&op1[i], &op2[i])
             }
             _ => panic!("must be valid op string")

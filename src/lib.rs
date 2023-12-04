@@ -9,7 +9,7 @@ const MOD_DIM: usize = 7;
 pub const MOD: [usize; MOD_DIM] = [0x204003, 0, 0, 0, 0, 0, 0x800000000];
 pub const MOD_DEG: usize = 419;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct GF2Element<const DIM: usize> {
     // TODO make private
     pub data: [usize; DIM],
@@ -196,6 +196,7 @@ fn deg(arr: &[usize]) -> usize {
 
 mod display;
 mod from_str;
+mod solve_sq_eq;
 
 #[cfg(test)]
 mod tests {
